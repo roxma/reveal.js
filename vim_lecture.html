@@ -124,10 +124,25 @@
 							<li class="fragment">配色方案：内置配色方案， <a href="https://github.com/altercation/vim-colors-solarized">solarized</a>，<a href="https://github.com/morhetz/gruvbox">gruvbox</a>，...</li>
 						</ul>
 					</section>
-					<section data-background-image="img/my_vim_looks.png" data-background-size="contain"> 
+					<section data-background-image="img/my-vim-looks.png" data-background-size="contain"> 
 						<p>
 							<span class="background_description">
-								airline+gruvbox
+								gruvbox 配色方案
+							</span>
+						</p>
+						<p class="fragment">
+							<span class="background_description">
+								<code class="hljs inline">
+									set background=dark<br />
+									colorscheme gruvbox<br />
+									hi Normal ctermbg=none<br />
+								</code>
+							</span>
+						</p>
+						<p class="fragment">
+							<span class="background_description">
+								<code class="hljs inline"> hi Normal ctermbg=none </code> 适用于通过终端连接远程计算机上面的 vim
+								，把背景设为<code class="hljs inline">none</code>可以避免很强的刷页面感。
 							</span>
 						</p>
 					</section>
