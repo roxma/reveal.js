@@ -1,0 +1,350 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Git 版本管理介绍</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<style>
+			.hljs.inline {
+				display:inline;
+			}
+			.background_description {
+				background:black;
+				opacity:0.6;
+			}
+		</style>
+
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+				<section>
+					<h1>Git 版本管理介绍</h1>
+					<span>
+						by roxma@qq.com
+					</span>
+				</section>
+
+				<section>
+					<h2>课程大纲</h2>
+					<ol>
+						<li> Git 简介</li>
+						<li> 基础命令 </li>
+						<li> 分支管理 </li>
+						<li> 典型协作方式 </li>
+						<li> 标签管理 </li>
+						<li> 其他技巧 </li>
+					</ol>
+				</section>
+
+				<section>
+					<section>
+						<h2>
+							Git 简介
+						</h2>
+					</section>
+					<section>
+						<h3>
+							Git 的诞生
+						</h3>
+						<p class="fragment">
+							由 Linus Torvalds 开发用于 Linux 内核管理，替换 Bitkeeper，取得成功
+						</p>
+						<div>
+							<h4 class="fragment">git 的含义：</h4>
+							<ul>
+								<li class="fragment">"global information tracker"</li>
+								<li class="fragment">"goddamn idiotic truckload of sh*t"</li>
+							</ul>
+						</div>
+					</section>
+					<section>
+						<h4>优点？</h4>
+						<ul>
+							<li class="fragment">
+								可以本地提交代码，管理分支，速度快
+							</li>
+							<li class="fragment">
+								强大的分支&amp;合并功能
+							</li>
+							<li class="fragment">
+								文件重命名
+							</li>
+						</ul>
+					</section>
+					<section>
+						<h4>缺点？</h4>
+						<ul>
+							<li class="fragment">学习曲线比较陡</li>
+							<li class="fragment">不适合用于管理二进制文件</li>
+							<li class="fragment">没有 svn lock 功能</li>
+							<li class="fragment">没有目录权限控制，不能checkout子目录</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>
+							基础命令
+						</h2>
+						<ul>
+							<li class="fragment"><code class="hljs inline">git init</code> 和 <code class="hljs inline">git clone</code></li>
+							<li class="fragment"><code class="hljs inline">git add</code></li>
+							<li class="fragment"><code class="hljs inline">git commit</code></li>
+							<li class="fragment"><code class="hljs inline">git log</code></li>
+							<li class="fragment"><code class="hljs inline">git remote</code></li>
+							<li class="fragment"><code class="hljs inline">git push</code> 和 <code class="hljs inline">pull</code></li>
+						</ul>
+					</section>
+
+					<section data-background-image="img/git-log.png" data-background-size="contain">
+						<span class="background_description">
+							<code class="hljs inline">
+								git log
+							</code>
+						</span>
+					</section>
+
+					<section data-background-image="img/git-log-color-graph.png" data-background-size="contain">
+						<span class="background_description">
+							<code class="hljs inline">
+								git log --color --graph
+							</code>
+						</span>
+					</section>
+
+					<section data-background-image="img/git-diff.png" data-background-size="contain">
+						<span class="background_description">
+							<code class="hljs inline">
+								git diff
+							</code>
+						</span>
+					</section>
+
+					<section data-background-image="img/git-vimdiff.png" data-background-size="contain">
+
+						<ul>
+							<li class="fragment">
+								<span class="background_description">
+									<code class="hljs inline">
+										git difftool --tool=vimdiff --no-prompt
+									</code>
+								</span>
+							</li>
+							
+							<li class="fragment"> 或者
+								<span class="background_description">
+									<code class="hljs inline">
+										vim -p `git diff --name-only`
+									</code>
+								</span>
+							</li>
+						</ul>
+
+					</section>
+
+				</section>
+
+				<section>
+					<h2>
+						分支管理
+					</h2>
+					<ul>
+						<li class="fragment"><code class="hljs inline">git checkout -b [name]</code> 创建本地分支</li>
+						<li class="fragment"><code class="hljs inline">git checkout -b [name] [origin/branch]</code> 拉取远程库的分支</li>
+						<li class="fragment"><code class="hljs inline">git checkout [name]</code> 切换到指定分支</li>
+						<li class="fragment">在 master 分支中，<code class="hljs inline">git merge develop</code>，合并 develop 分支的修改</li>
+					</ul>
+				</section>
+
+				<section>
+
+					<section>
+						<h2>
+							典型协作方式
+						</h2>
+					</section>
+
+					<section>
+						<h3>
+							中心化协作
+						</h3>
+						<div class="fragment">
+							<p>
+								有点类似 SVN 的工作方式，所有人直接操作同一个 repository
+							</p>
+							<ul>
+								<li class="fragment">pull</li>
+								<li class="fragment">commit</li>
+								<li class="fragment">push</li>
+							</ul>
+							<p class="fragment">
+								适合三个人以内协作
+							</p>
+						</div>
+					</section>
+
+					<section>
+						<h3>
+							Feature branch
+						</h3>
+						<div>
+							<img src="img/feature-branch-workflow.png" alt="" />
+						</div>
+					</section>
+
+					<section data-background-image="img/gitflow-model.png" data-background-size="contain">
+						<h3 class="fragment">
+							<span class="background_description">
+								Gitflow 方式
+							</span>
+						</h3>
+						<div class="fragment">
+							<div class="background_description">
+								<ul>
+									<li>develop 上游分支</li>
+									<li>feature 为特特性开发而创建的分支</li>
+									<li>release 清理 develop 分支的内容，准备发布到 master</li>
+									<li>master 把新的发布放在这个分支</li>
+									<li>hotfix 快速修复 BUG</li>
+								</ul>
+							</div>
+						</div>
+						<p class="fragment"><span class="background_description">
+							适用于多人协作，比较严肃，正式的项目
+						</span></p>
+						<p class="fragment">
+							<small class="background_description">图片来源：http://nvie.com/posts/a-successful-git-branching-model/</small>
+						</p>
+					</section>
+
+					<section>
+						<h3>
+							Fork 方式
+						</h3>
+						<div class="fragment">
+							在 github 的各类开源项目中普遍存在
+						</div>
+					</section>
+
+				</section>
+
+				<section>
+					<h2>
+						标签管理
+					</h2>
+					<ul>
+						<li class="fragment"><code class="hljs inline">git tag</code></li>
+						<li class="fragment"><code class="hljs inline">git tag -a v1.4 -m "my version 1.4"</code> 打标签</li>
+						<li class="fragment"><code class="hljs inline">git show v1.4</code> 查看刚才打的标签</li>
+						<li class="fragment"><code class="hljs inline">git push origin v1.4</code> push 标签</li>
+					</ul>
+				</section>
+
+				<section>
+					<section>
+						<h2>
+							其他技巧
+						</h2>
+					</section>
+					<section>
+						<code class="hljs inline">git reset HEAD~</code> 撤回上一次提交
+					</section>
+
+					<section>
+						<h3>
+							关于 .gitignore
+						</h3>
+						<ul>
+							<li class="fragment"><code class="hljs inline">/vendor</code> 忽略 composer 自动生成的目录</li>
+							<li class="fragment"><code class="hljs inline">/composer.lock</code> 忽略 composer.lock 文件</li>
+							<li class="fragment"><code class="hljs inline">*.o</code> 忽略所有的 .o 后缀的文件</li>
+							<li class="fragment">参考 github 提供的<a href="https://github.com/github/gitignore">各种模板</a></li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>
+							.git/hooks 目录
+						</h3>
+						<ul>
+							<li class="fragment" data-fragment-index="1">.git/hooks/pre-commit<span class="fragment fade-out" data-fragment-index="2">.sample</span></li>
+							<li class="fragment" data-fragment-index="1">.git/hooks/pre-push<span class="fragment fade-out" data-fragment-index="2">.sample</span></li>
+							<li class="fragment" data-fragment-index="3">.git/hooks/commit-msg<span class="fragment fade-out" data-fragment-index="4">.sample</span></li>
+							<li class="fragment" data-fragment-index="3">.git/hooks/post-update<span class="fragment fade-out" data-fragment-index="4">.sample</span></li>
+							<li class="fragment" data-fragment-index="3">.git/hooks/applypatch-msg<span class="fragment fade-out" data-fragment-index="4">.sample</span></li>
+							<li class="fragment" data-fragment-index="3">.git/hooks/pre-applypatch<span class="fragment fade-out" data-fragment-index="4">.sample</span></li>
+							<li class="fragment" data-fragment-index="3">.git/hooks/prepare-commit-msg<span class="fragment fade-out" data-fragment-index="4">.sample</span></li>
+							<li class="fragment" data-fragment-index="3">.git/hooks/pre-rebase<span class="fragment fade-out" data-fragment-index="4">.sample</span></li>
+							<li class="fragment" data-fragment-index="3">.git/hooks/update<span class="fragment fade-out" data-fragment-index="4">.sample</span></li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>
+							submodules 子模块
+						</h3>
+						<ul>
+							<li class="fragment"><code class="hljs inline">git submodule add [repository]</code> 添加子模块</li>
+							<li class="fragment"><code class="hljs inline">git submodule update</code> 更新子模块</li>
+						</ul>
+					</section>
+
+				</section>
+
+				<section>
+					<h2>参考链接 & 推荐阅读</h2>
+					<ul>
+						<li><a href="https://github.com/xirong/my-git">my-git</a></li>
+						<li><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000">廖雪峰的Git教程</a></li>
+						<li><a href="http://nvie.com/posts/a-successful-git-branching-model/">A successful Git branching model</a></li>
+						<li><a href="https://www.atlassian.com/git/tutorials/">
+							Become a git guru by Atlassian
+						</a></li>
+						<li><a href="http://www.nowcoder.com/courses/2">
+							Github 出品教学视频
+						</a></li>
+					</ul>
+				</section>
+
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>

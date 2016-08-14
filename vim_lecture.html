@@ -1,0 +1,701 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Vim 编辑器介绍</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<style>
+			p.vim, span.vim, div.vim {
+				white-space: pre;
+				font-family:'Lucida Console', Monaco, monospace;
+				background:black;
+				text-align:left;
+			}
+			.vim span.vim_cursor {
+				background:gray;
+			}
+
+			p.vim_indicator_fragments, span.vim_indicator_fragments, div.vim_indicator_fragments {
+				position:relative;
+			}
+			p.vim_indicator_fragments>.fragment,span.vim_indicator_fragments>.fragment,div.vim_indicator_fragments>.fragment{
+				position:absolute; top:0;
+				white-space: pre;
+				font-family:'Lucida Console', Monaco, monospace;
+				text-align:left;
+			}
+			.vim_indicator_fragments em {
+				color:red
+			}
+
+			.hljs.inline {
+				display:inline;
+			}
+
+			.background_description {
+				background:black;
+				opacity:0.6;
+			}
+		</style>
+	</head>
+	<body>
+
+		<div class="reveal">
+			<div class="slides">
+
+				<section>
+					<h1 style="text-transform:none;">Vim 编辑器介绍</h1>
+					<span>
+						by roxma@qq.com
+					</span>
+				</section>
+
+				<section>
+					<h2>课程大纲</h2>
+					<ol>
+						<li> 简介 </li>
+						<li> 环境搭建 </li>
+						<li> 移动 </li>
+						<li> 编辑 </li>
+						<li> 查找 </li>
+						<li> 多窗口管理 </li>
+						<li> 其他插件 &amp; 技巧 </li>
+					</ol>
+				</section>
+
+				<section>
+					<h2>
+						简介
+					</h2>
+					<ul>
+						<li class="fragment"> 80年代末，由 Bram 开发，Vi IMitation（模拟） </li>
+						<li class="fragment"> Vim 被称为 “编辑器之神”，EMACS 是“神之编辑器” </li>
+						<li class="fragment"> 2014 年发起 Neovim，2015 年发布 0.1 版本，发展迅速，也反过来推动了 Vim 社区的发展 </li>
+					</ul>
+				</section>
+
+				<section>
+					<section>
+						<h2>
+							安装 &amp; 上手
+						</h2>
+					</section>
+					<section>
+						<h3>安装</h3>
+						<ul>
+							<li>Linux系统自带</li>
+							<li>Windows系统可以用 gVim</li>
+							<li class="fragment">插件管理器：<a href="https://github.com/VundleVim/Vundle.vim">Vundle.vim</a>，<a href="https://github.com/junegunn/vim-plug">vim-plug</a>，...</li>
+							<li class="fragment"><a href="http://vim.spf13.com/">spf13</a> - 打包好的各种插件和配置，懒人必备！</li>
+						</ul>
+					</section>
+					<section>
+						<h3>
+							Vim 生存必备 <!-- 打开，i,a,I,A 编辑模式/普通模式，保存，关闭 -->
+						</h3>
+						<ul>
+							<li class="fragment"><code class="hljs inline">i/a/I/A</code> 插入模式，<code class="hljs inline">&lt;ESC&gt;</code> 返回normal模式</li>
+							<li class="fragment"><code class="hljs inline">:w</code> 保存文件</li>
+							<li class="fragment"><code class="hljs inline">:q</code> 关闭文件</li>
+						</ul>
+					</section>
+					<section>
+						<h3>关于外观</h3>
+						<h4 class="fragment">目标：营造简洁，专注的编辑环境</h4>
+						<ul>
+							<li class="fragment">状态栏插件：<a href="https://github.com/vim-airline/vim-airline">vim-airline</a></li>
+							<li class="fragment">配色方案：内置配色方案， <a href="https://github.com/altercation/vim-colors-solarized">solarized</a>，<a href="https://github.com/morhetz/gruvbox">gruvbox</a>，...</li>
+						</ul>
+					</section>
+					<section data-background-image="img/my_vim_looks.png" data-background-size="contain"> 
+						<p>
+							<span class="background_description">
+								airline+gruvbox
+							</span>
+						</p>
+					</section>
+				</section>
+
+				<section>
+
+					<section>
+						<h2>移动</h2>
+					</section>
+
+					<section>
+						<h3 style="text-transform:none;">
+							<code class="hljs inline">h</code>&larr; 
+							<code class="hljs inline">j</code>&darr; 
+							<code class="hljs inline">k</code>&uarr; 
+							<code class="hljs inline">l</code>&rarr;
+						</h3>
+						<h3 class="fragment">
+							历史渊源：AMD-3A
+						</h3>
+					</section>
+
+					<section data-background-image="img/lsi-adm3a-full-keyboard.jpg" data-background-size="contain"> 
+						<h3 class="fragment">AMD-3A 键盘</h3>
+						<!-- <small>
+							图片来源 http://www.catonmat.net/blog/why-vim-uses-hjkl-as-arrow-keys/
+						</small> -->
+					</section>
+					<section data-background-image="img/lsi-adm-3a.jpg" data-background-size="contain"> 
+						<h3>AMD-3A 真身</h3>
+						<!-- <small>
+							图片来源 http://www.catonmat.net/blog/why-vim-uses-hjkl-as-arrow-keys/
+						</small> -->
+					</section>
+
+					<section>
+						<h3 style="text-transform:none;">
+							<code class="hljs inline">e b w ^ 0 $</code>
+						</h3>
+						<br />
+						<div class="vim"><span class="fragment current-visible highlight-current-blue" data-fragment-index="5"> </span><span class="fragment current-visible highlight-current-blue" data-fragment-index="4">E</span>njoy the <span class="fragment current-visible highlight-current-blue" data-fragment-index="2">p</span>o<span class="vim_cursor">w</span>e<span class="fragment current-visible highlight-current-blue"  data-fragment-index="1">r</span> <span class="fragment current-visible highlight-current-blue" data-fragment-index="3">o</span>f the great vim editor<span  class="fragment current-visible highlight-current-blue"  data-fragment-index="6">!</span></div>
+						 <div class="vim_indicator_fragments">
+						 <!--                                                               Enjoy the power of the great vim editor! -->
+							 <div class="current-visible fragment" data-fragment-index="1">               &uarr; <em>e</em>nd of word</div>
+							 <div class="current-visible fragment" data-fragment-index="2">           &uarr; <em>b</em>ackward by word</div>
+							 <div class="current-visible fragment" data-fragment-index="3">                 &uarr; <em>w</em>ord forward</div>
+							 <div class="current-visible fragment" data-fragment-index="4"> &uarr; <em>^</em> 行首字母</em></div>
+							 <div class="current-visible fragment" data-fragment-index="5">&uarr; column[<em>0</em>]，行首列</div>
+							 <div class="current-visible fragment" data-fragment-index="6">                                        &uarr; <em>$</em>行末尾</div>
+						 </div>
+					</section>
+
+					<section>
+						<h3 style="text-transform:none;">
+							E B W ...
+						</h3>
+						<!-- class="fragment current-visible highlight-current-blue" data-fragment-index="5" -->
+						<div class="vim">$email <span class="fragment current-visible highlight-current-blue" data-fragment-index="4">=</span><span class="fragment current-visible highlight-current-blue" data-fragment-index="3">u</span>rlencode<span class="vim_cursor">(</span><span class="fragment current-visible highlight-current-blue" data-fragment-index="1">'</span><span class="fragment current-visible highlight-current-blue" data-fragment-index="5">r</span>oxma<span class="fragment current-visible highlight-current-blue" data-fragment-index="2">'</span> <span class="fragment current-visible highlight-current-blue" data-fragment-index="6">+</span> '@qq.com')</div>
+						 <div class="vim_indicator_fragments">
+						 <!--                                                              $email =urlencode('roxma' + '@qq.com'); -->
+							 <div class="current-visible fragment" data-fragment-index="1">                  &uarr; <em>e</em>nd of word</div>
+							 <div class="current-visible fragment" data-fragment-index="2">                        &uarr; <em>E</em>nd of WORD</div>
+							 <div class="current-visible fragment" data-fragment-index="3">        &uarr; <em>b</em>ackward by word</div>
+							 <div class="current-visible fragment" data-fragment-index="4">       &uarr; <em>B</em>ackward by WORD</div>
+							 <div class="current-visible fragment" data-fragment-index="5">                   &uarr; <em>w</em>ord forward</div>
+							 <div class="current-visible fragment" data-fragment-index="6">                          &uarr; <em>W</em>ORD forward</div>
+						 </div>
+
+					</section>
+
+					<section>
+						<h3 style="text-transform:none;">
+							% f t F T ...
+						</h3>
+						<!-- class="fragment current-visible highlight-current-blue" data-fragment-index="5" -->
+						<div class="vim">$email <span class="fragment current-visible highlight-current-blue" data-fragment-index="5">=</span><span class="fragment current-visible highlight-current-blue" data-fragment-index="6">u</span>rlencode<span class="vim_cursor">(</span>'rox<span class="fragment current-visible highlight-current-blue" data-fragment-index="2"><span class="fragment current-visible highlight-current-blue" data-fragment-index="4">m</span></span><span class="fragment current-visible highlight-current-blue" data-fragment-index="3">a</span>' + '@qq.com'<span class="fragment current-visible highlight-current-blue" data-fragment-index="1">)</span>;</div>
+						<div class="vim_indicator_fragments">
+							<!--                                                          $email =urlencode('roxma' + '@qq.com'); -->
+							<div class="current-visible fragment" data-fragment-index="1">                                     &uarr; <em>%</em> match <em>pair</em></div>
+							<div class="current-visible fragment" data-fragment-index="2">                      &uarr; <em>fm</em> forward to m</div>
+							<div class="current-visible fragment" data-fragment-index="3">                       &uarr; <em>fa</em> forward to a</div>
+							<div class="current-visible fragment" data-fragment-index="4">                      &uarr; <em>ta</em> forward <em>t</em>ill before a</div>
+							<div class="current-visible fragment" data-fragment-index="5">       &uarr; <em>F=</em> backward to =</div>
+							<div class="current-visible fragment" data-fragment-index="6">        &uarr; <em>T=</em> backward till after =</div>
+						</div>
+					</section>
+
+					<section>
+						<h3>其他常用技巧</h3>
+						<ul>
+							<li class="fragment"><code class="hljs inline">gg</code> 到第一行</li>
+							<li class="fragment"><code class="hljs inline">G</code> 到最后一行</li>
+							<li class="fragment"><code class="hljs inline">zz</code> 根据当前光标调整屏幕</li>
+							<li class="fragment"><code class="hljs inline">g;</code> 到上一次编辑的位置，反过来是 g,</li>
+							<li class="fragment"><code class="hljs inline">CTRL + o</code> 跳转会上一次的位置，反过来是 CTRL+i</li>
+							<li class="fragment"><code class="hljs inline">CTRL+u/d</code> 向上/向下移动半屏，全屏是 CTRL + f/b</li>
+							<li class="fragment"><code class="hljs inline">{/}</code> 到上一个/下一个段首</li>
+						</ul>
+					</section>
+
+					<section data-background-image="img/gg_G_zz.gif" data-background-size="contain"> 
+						<h3>
+							<span class="background_description">
+								常用技巧演示
+							</span>
+						</h3>
+					</section>
+
+					<section>
+						<h3>
+							其他建议
+						</h3>
+						<ul>
+							<li class="fragment"><code class="hljs inline">set relativenumber</code> 用于 数字+上/下 快速移动<span class="fragment"><br />如：<span style="color:red">5j</span>（向下移动5行）</span></li>
+							<li class="fragment">试试 <a href="https://github.com/easymotion/vim-easymotion">easymotion</a></li>
+						</ul>
+						<!-- <div style="position:fixed; left:0px; zindex:-1; top:0px; width:100%; height:100%;" >
+							<img class="fragment current-visible"  width="100%" height="100%" src="img/relativenumber.jpg"/>
+						</div> -->
+					</section>
+
+					<section data-background-image="img/relativenumber.jpg" data-background-size="contain"> 
+						<h4>
+							relativenumber
+						</h4>
+					</section>
+					<section data-background-image="img/easymotion.gif" data-background-size="contain"> 
+						<h4>easymotion</h4>
+					</section>
+
+				</section>
+
+				<section>
+
+					<section>
+						<h2>编辑命令</h2>
+						<ul>
+							<li>命令格式</li>
+							<li>常用命令</li>
+							<li>其他建议</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>编辑命令的格式</h3>
+						<p>
+							<span class="fragment highlight-blue">[ number ]</span> <span class="fragment highlight-green">[ command ]</span> <span class="fragment highlight-red">[ text object or motion ]</span>
+						</p>
+					</section>
+
+					<section>
+						<h3>command</h3>
+						<ul>
+							<li class="fragment"><code class="hljs inline">y</code> 复制</li>
+							<li class="fragment"><code class="hljs inline">p</code> 粘贴</li>
+							<li class="fragment"><code class="hljs inline">d</code> 删除</li>
+							<li class="fragment"><code class="hljs inline">v/V</code> 选择</li>
+							<li class="fragment"><code class="hljs inline">J</code> 连接</li>
+							<li class="fragment"><code class="hljs inline">=</code> 对齐</li>
+							<li class="fragment"><code class="hljs inline">&lt; &gt;</code> 向左/右边缩进</li>
+							<li class="fragment">...</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>text object</h3>
+						<ul>
+							<li class="fragment"><code class="hljs inline">iw</code> 词(inside word)</li>
+							<li class="fragment"><code class="hljs inline">ip</code> 段落(inside paragraph)</li>
+							<li class="fragment"><code class="hljs inline">it</code> tag 内容，(inside tag)</li>
+							<li class="fragment"><code class="hljs inline">i(</code> (和) 之间的内容，(inside parenthesis)</li>
+							<li class="fragment"><code class="hljs inline">i{</code> {和} 之间的内容，(inside braces)</li>
+							<li class="fragment"><code class="hljs inline">aw</code> (和) 之间的内容，包括 ( 和 )，(around parenthesis)</li>
+							<li class="fragment">...</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>常用命令 <span class="fragment">举几个栗子</span></h3>
+						<ul>
+							<li class="fragment"><code class="hljs inline">ci"</code> 修改引号中的内容</li>
+							<li class="fragment"><code class="hljs inline">ciw</code> 重写这个单词<span class="fragment">，如果用 ce，重写从光标到词末尾的内容</span></li>
+							<li class="fragment"><code class="hljs inline">c$</code> 重写本行后面的文本</li>
+							<li class="fragment"><code class="hljs inline">gg=G</code> 格式化整个文件的代码<span class="fragment">，也可以用 ggVG=</span></li>
+							<li class="fragment"><code class="hljs inline">vi( / vi)</code> 选中括号中的内容<span class="fragment">，然后可以复制/粘贴替换/删除(y/p/d/c)...</span></li>
+							<li class="fragment">...</li>
+						</ul>
+					</section>
+					<section data-background-image="img/edit_commands.gif" data-background-size="contain"> 
+						<h4>编辑命令举例演示</h4>
+					</section>
+
+					<section>
+						<h3>
+							更多技巧
+						</h3>
+						<ul>
+							<li class="fragment"><code class="hljs inline">.</code> 重复上一条编辑命令</li>
+							<li class="fragment"><code class="hljs inline">Ctrl+v</code> 列模式</li>
+							<li class="fragment"><code class="hljs inline">Ctrl+w</code> 插入模式下快速删除一个词</li>
+							<li class="fragment"><a href="https://github.com/tpope/vim-surround">vim-surround</a> 插件</li>
+						</ul>
+					</section>
+					<section data-background-image="img/edit_tricks.gif" data-background-size="contain"> 
+					</section>
+
+					<section>
+						<h3>关于复制 &amp; 粘贴</h3>
+						<ul>
+							<li><code class="hljs inline">:set paste</code> 避免被自动缩进干扰</li>
+							<li><code class="hljs inline">Ctrl+r 0 </code> 粘贴当前复制的内容，可用于 vim 命令编辑</li>
+							<li><code class="hljs inline">:r!echo "Hello world"</code> 执行外部命令并把结果粘贴到 vim 中</li>
+							<!-- <li class="fragment"><a href="https://github.com/roxma/vim-tmux-clipboard">vim-tmux-clipboard</a></li> -->
+						</ul>
+					</section>
+					<section data-background-image="img/copy_paste.gif" data-background-size="contain">
+					</section>
+
+				</section>
+
+				<section>
+
+					<section>
+						<h2>查找</h2>
+					</section>
+
+					<section>
+						<h3>文件内查找</h3>
+						<ul>
+							<li><code class="hljs inline">/[模式]</code> 模式匹配查找</li>
+							<li><code class="hljs inline">*</code> 查找光标下的单词</li>
+							<li><code class="hljs inline">n</code> 跳转到下一个匹配项</li>
+							<li><code class="hljs inline">N</code> 上一个</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3> 模式匹配 </h3>
+						<ul>
+							<li class="fragment"><code class="hljs inline">/hi</code>  匹配 hi</li>
+							<li class="fragment"><code class="hljs inline">/\cHi</code>  强制大小写不敏感。 匹配 HI。</li>
+							<li class="fragment"><code class="hljs inline">/\CHi</code>  强制大小写敏感</li>
+							<li class="fragment">
+								<code class="hljs inline">/\v</code>  &nbsp;&nbsp;Very magic，类似正则表达式，除 '0'-'9', 'a'-'z', 'A'-'Z' 和 '_' 以外的 ASCII 字符都具备特别含义。
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>\v \m \M \V</h3>
+						<table>
+							<tr><td>\v</td>       <td>\m (magic)</td>        <td>\M ('nomagic')</td>         <td>\V</td>       <td>matches</td></tr>
+							<tr><td>$</td>        <td>$</td>         <td>$</td>          <td>\$</td>       <td>matches end-of-line</td></tr>
+							<tr><td>.</td>        <td>.</td>         <td>\.</td>         <td>\.</td>       <td>matches any character</td></tr>
+							<tr><td>\.</td>       <td>\.</td>        <td>.</td>          <td>.</td>        <td>literal dot</td></tr>
+							<tr><td>*</td>        <td>*</td>         <td>\*</td>         <td>\*</td>       <td>any number of the previous atom</td></tr>
+							<tr><td>|</td>        <td>\|</td>        <td>\|</td>         <td>\|</td>       <td>separating alternatives</td></tr>
+						</table>
+						<p>
+							<code class="hljs inline">:help \v</code> 查看更多信息
+						</p>
+					</section>
+
+					<section>
+						<h3> 有用的配置 </h3>
+						<ul>
+							<li>默认 very magic，区分大小写<code class="hljs inline">nnoremap /  /\c\v</code></li>
+							<li>实时高亮：<code class="hljs inline">set incsearch</code></li>
+							<li>高亮匹配项：<code class="hljs inline">set hlsearch</code></li>
+							<li>双击 ESC 取消当前的高亮：<code class="hljs inline">nnoremap &lt;ESC&gt;&lt;ESC&gt; :let @/ = ""&lt;CR&gt;</code></li>
+						</ul>
+					</section>
+					<section data-background-image="img/pattern_search.gif" data-background-size="contain">
+						<div class="background_description">
+							<h3>
+								查找演示
+							</h3>
+						</div>
+					</section>
+
+					<section  data-background-image="img/vim-asterisk.gif" data-background-size="contain">
+						<div class="background_description">
+							<h3>
+								<a href="https://github.com/haya14busa/vim-asterisk">
+									vim-asterisk 插件
+								</a>
+							</h3>
+							<ul>
+								<li><code class="hljs inline">vmap * &lt;Plug&gt;(asterisk-*)</code></li>
+							</ul>
+						</div>
+					</section>
+
+					<section data-background-image="img/FZF.gif" data-background-size="contain">
+						<div class="background_description">
+							<h3>
+								<a href="https://github.com/junegunn/fzf.vim">
+									FZF 插件
+								</a>
+							</h3>
+							<ul>
+								<li><code class="hljs inline">:FZF [name]</code> 模糊查找文件</li>
+								<li><code class="hljs inline">:FZFBuffers [name]</code> 查找并选择打开的文件</li>
+								<li><code class="hljs inline">:FZFAg [text]</code> 在文件系统中查找文本</li>
+								<li><code class="hljs inline">:FZFLines [text</code>]模糊查找打开的文件的内容</li>
+								<li>按键映射，如 <code class="hljs inline">nnoremap &lt;C-f&gt;&lt;C-f&gt; :FZF&lt;CR&gt;</code></li>
+							</ul>
+						</div>
+					</section>
+
+					<section>
+						<h3>
+							顺便说一下替换...
+						</h3>
+						<ul>
+							<li><h4>批量替换法</h4>
+								<ol>
+									<li class="fragment">用 <code class="hljs inline">V</code> 选择需要操作的区域</li>
+									<li class="fragment">输入 <code class="hljs inline">:s/hello/Hello/g</code> 将区域内的 hello 替换成 Hello</li>
+								</ol>
+							</li>
+							<li><h4>逐个确认法</h4>
+								<ol>
+									<li  class="fragment">用 <code class="hljs inline">/hello</code> 查找 hello</li>
+									<li  class="fragment">键入 <code class="hljs inline">ceHello</code> 将 hello 替换</li>
+									<li  class="fragment"><code class="hljs inline">n</code> 定位到下一个 hello</li>
+									<li  class="fragment">按下 <code class="hljs inline">.</code> 重复替换命令</li>
+									<li  class="fragment">重复步骤三，步骤四</li>
+								</ol>
+							</li>
+						</ul>
+					</section>
+					<section data-background-image="img/substitution.gif" data-background-size="contain">
+						<h3>
+							<span class="background_description">
+								查找替换操作演示
+							</span>
+						</h3>
+					</section>
+
+				</section>
+
+				<section>
+
+					<section>
+						<h2> 多窗口管理 </h2>
+						<ul>
+							<li>水平/垂直分割</li>
+							<li>Tab</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3> 水平/垂直分割 </h3>
+						<ul>
+							<li><code class="hljs inline">:split [文件名]</code> 水平分割出上下两个窗口</li>
+							<li><code class="hljs inline">:vsplit [文件名]</code> 垂直分割出左右连个窗口</li>
+							<li><code class="hljs inline">Ctrl+w h/j/k/l</code> 移动光标到 左/下/上/右 边的窗口</li>
+							<li><code class="hljs inline">Ctrl+w +/-/_/|</code> 调整窗口大小</li>
+							<li><code class="hljs inline">:q</code> 关闭窗口</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3> 建议技巧 </h3>
+						<ul>
+							<li>
+								Ctrl+h/j/k/l 快速切换窗口
+								<code class="hljs">
+									nnoremap &lt;C-h&gt;  &lt;C-w&gt;h<br />
+									nnoremap &lt;C-j&gt;  &lt;C-w&gt;j<br />
+									nnoremap &lt;C-k&gt;  &lt;C-w&gt;k<br />
+									nnoremap &lt;C-l&gt;  &lt;C-w&gt;l
+								</code>
+							</li>
+							<li>
+								<a href="http://github.com/simeji/winresizer">winresizer</a> 插件，快速调整窗口大小
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>
+							Tab
+						</h3>
+						<ul>
+							<li><code class="hljs inline">:tabnew</code> [文件名]</li>
+							<li><code class="hljs inline">:tabnext</code> 下一个 Tab</li>
+							<li><code class="hljs inline">:tabprev</code> 上一个 Tab</li>
+							<li><code class="hljs inline">:q</code>  关闭 Tab</li>
+						</ul>
+					</section>
+
+					<section>
+						<h3> 建议技巧 </h3>
+						<ul>
+							<li>
+								H/L 左右快速切换 Tab
+								<code class="hljs">
+									nnoremap &lt;S-l&gt; :tabn&lt;CR&gt;<br />
+									nnoremap &lt;S-h&gt; :tabN&lt;CR&gt;
+								</code>
+							</li>
+						</ul>
+					</section>
+
+				</section>
+
+				<section>
+
+					<section>
+						<h2>
+							其他插件 &amp; 技巧 
+						</h2>
+					</section>
+
+					<section>
+						<h3>
+							宏 (macro)
+						</h3>
+						<p class="fragment">
+							录制和重放一系列的编辑操作
+						</p>
+						<h4 class="fragment">
+							使用方法
+						</h4>
+						<ol>
+							<li class="fragment"><code class="hljs inline">qa</code> 录制宏到寄存器 a</li>
+							<li class="fragment">编辑文本......</li>
+							<li class="fragment"><code class="hljs inline">q</code> 结束录制</li>
+							<li class="fragment"><code class="hljs inline">@a</code> 重放操作</li>
+							<li class="fragment"><code class="hljs inline">5@a</code> 执行5次</li>
+						</ol>
+					</section>
+					<section data-background-image="img/macro.gif" data-background-size="contain">
+						<h3 >
+							<span class="background_description">宏 (macro)</span>
+						</h3>
+						<ol class="background_description">
+							<li><code class="hljs inline">qa</code> 录制宏到寄存器 a</li>
+							<li>编辑文本......</li>
+							<li><code class="hljs inline">q</code> 结束录制</li>
+							<li><code class="hljs inline">@a</code> 执行寄存器 a 的宏</li>
+							<li><code class="hljs inline">5@a</code> 执行5次</li>
+						</ol>
+					</section>
+
+					<section data-background-image="img/tabular.gif" data-background-size="contain">
+						<h3 >
+							<span class="background_description"><a href="https://github.com/godlygeek/tabular">Tabular 插件</a></span>
+						</h3>
+						<div class="background_description">
+							<ul>
+								<li><code class="hljs inline">:Tabularize /=</code></li>
+								<li class="fragment">
+									同类插件，<a href="https://github.com/junegunn/vim-easy-align">vim-easy-aligh</a>
+								</li>
+							</ul>
+						</div>
+					</section>
+
+					<section data-background-image="img/vim-gitgutter.png" data-background-size="contain">
+						<h3 style="text-transform:none;">
+							<span class="background_description"><a href="https://github.com/airblade/vim-gitgutter">vim-gitgutter</a></span>
+						</h3>
+					</section>
+					<section data-background-image="img/vim-fugitive.png" data-background-size="contain">
+						<h3 style="text-transform:none;">
+							<span class="background_description"><a href="https://github.com/tpope/vim-fugitive">vim-fugitive</a></span>
+						</h3>
+					</section>
+					<section data-background-image="img/gitv.png" data-background-size="contain">
+						<h3 style="text-transform:none;">
+							<span class="background_description"><a href="https://github.com/gregsexton/gitv">gitv</a> 插件</span>
+						</h3>
+					</section>
+
+					<section data-background-image="img/nerdtree.png" data-background-size="contain">
+						<h3 style="text-transform:none;">
+							<span class="background_description">GIT</span>
+							<a href="https://github.com/scrooloose/nerdtree">nerdtree</a> 和 <a href="https://github.com/Xuyuanp/nerdtree-git-plugin">nerdtree-git-plugin</a></span>
+						</h3>
+					</section>
+
+					<section>
+						<h3>
+							还有还有......
+						</h3>
+						<ul>
+							<li class="fragment">ctags 用于 go to definition</li>
+							<li class="fragment">自动补全代码： <span class="fragment">phpcomplete.vim for php,</span> <span class="fragment">YoucompleteMe,</span> <span class="fragment">deoplete,</span> <span class="fragment">SimpleAutoComplPop,</span> <span class="fragment">......</span></li>
+							<li class="fragment">html 快速编辑 emmet.vim</li>
+							<li class="fragment">......</li>
+						</ul>
+					</section>
+
+				</section>
+
+				<section>
+					<section>
+						<h2>参考链接 &amp; 推荐阅读</h2>
+						<!-- http://www.slideshare.net/brandonliu/introduction-to-vim -->
+						<ul>
+							<li><a href="http://blog.carbonfive.com/2011/10/17/vim-text-objects-the-definitive-guide/">
+								Vim Text Objects: The Definitive Guide
+							</a></li>
+							<li><a href="https://github.com/yangyangwithgnu/use_vim_as_ide">
+								像 IDE 一样使用 vim
+							</a></li>
+							<li><a href="http://vimawesome.com/">
+								Vim Awesome
+							</a></li>
+							<li><a href="https://www.amazon.com/Practical-Vim-Edit-Speed-Thought/dp/1680501275">
+								Pratical vim
+							</a></li>
+							<li><a href="http://learnvimscriptthehardway.stevelosh.com/">
+								Learn Vimscript the Hard Way
+							</a></li>
+							<li><a href="https://github.com/roxma/cpp_learn/tree/master/linux_env"> 我的linux开发环境配置脚本 </a></li>
+						</ul>
+					</section>
+					<section data-background-image="img/vim_cheat_sheet_for_programmers_screen.png" data-background-size="contain"> 
+						<div class="fragment">
+							<div class="background_description">
+								<h3>
+									vim cheat sheet
+								</h3>
+								<p><small>
+										图片来源 http://michael.peopleofhonoronly.com/vim/
+								</small></p>
+							</div>
+						</div>
+					</section>
+					<section>
+						<h3 style="text-transform:none;">
+							还有一个非常重要的参考是 <code class="hljs inline fragment">:help</code>
+						</h3>
+					</section>
+				</section>
+
+				<section>
+					<h2>
+						感谢观看！
+					</h2>
+				</section>
+
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+				// width: 800,
+				// height: 600,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
